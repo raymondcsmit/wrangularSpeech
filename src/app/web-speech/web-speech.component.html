@@ -8,22 +8,23 @@
   </div>
   <div class="form-group row">
     <button mat-fab *ngIf="listening$ | async; else mic" (click)="stop()">
-    <i class="fas fa-microphone-slash"></i>
+    <i class="fas fa-microphone-slash">Stop Speech</i>
   </button>
     <ng-template #mic>
-      <button mat-fab (click)="start()">
-      <i class="fas fa-microphone"></i>
+      <button mat-fab (click)="start()"> 
+      <i class="fas fa-microphone">Start Speech</i>
     </button>
     </ng-template>
   </div>
   <div class="form-group row">
     <div *ngIf="transcript$ | async">
-      <mat-card class="notification mat-elevation-z4">{{transcript$ | async}}</mat-card>
+      <label class="notification mat-elevation-z4">{{transcript$ | async}}</label>
     </div>
   </div>
   <div class="form-group row">
-    <input type="text" [value]="totalTranscript || ''" placeholder="Speech Input Result" rows="15">
+    <!-- <input type="text" [value]="totalTranscript || ''" placeholder="Speech Input Result" rows="15"> -->
 
-
+    <textarea  [(ngModel)]="totalTranscript" rows="30" cols="50">                             
+  </textarea>
   </div>
 </div>

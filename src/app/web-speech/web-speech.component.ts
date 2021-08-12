@@ -8,7 +8,7 @@ import { SpeechNotification } from './speech.model';
 
 
 @Component({
-  selector: 'my-app',
+  selector: 'speech-component',
   templateUrl: './web-speech.component.html',
   styleUrls: [ './web-speech.component.css' ]
 })
