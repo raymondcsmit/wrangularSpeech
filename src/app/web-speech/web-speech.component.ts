@@ -109,7 +109,7 @@ export class WebSpeechComponent  {
   private  processNotification(notification: SpeechNotification<string>): void {
     if (notification.event === SpeechEvent.FinalContent) {
       const message = notification.content?.trim() || '';
-    //  this.actionContext.processMessage(message, this.currentLanguage);
+     this.actionContext.processMessage(message, this.currentLanguage);
      // // this.actionContext.runAction(message, this.currentLanguage);
       this.totalTranscript = this.totalTranscript
         ? `${this.totalTranscript}\n${message}`

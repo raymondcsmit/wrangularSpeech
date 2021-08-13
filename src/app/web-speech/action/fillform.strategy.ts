@@ -26,6 +26,7 @@ export class FillFormStrategy extends ActionStrategy {
   }
 
   runAction(input: string, language: string): void {
+    console.log(input);
     //fill the form object and patch it into ngxs action
     this.speechSynthesizer.speak(
       `${this.mapActionDone.get(language)}: ${input}`,
