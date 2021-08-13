@@ -1,6 +1,7 @@
 import { Component, VERSION } from '@angular/core';
 import { merge, Observable, of, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { ActionContext } from './action/action.context';
 import { SpeechRecognizerService } from './services/speech-recognizer.service';
 import { defaultLanguage, languages } from './speech.constants';
 import { SpeechError, SpeechEvent } from './speech.enum';
@@ -25,7 +26,7 @@ export class WebSpeechComponent  {
 
   constructor(
     private speechRecognizer: SpeechRecognizerService,
-    //private actionContext: ActionContext
+    private actionContext: ActionContext
   ) {}
   ngOnInit(): void {
     const webSpeechReady = this.speechRecognizer.initialize(this.currentLanguage);

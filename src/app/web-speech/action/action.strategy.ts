@@ -7,8 +7,7 @@ export abstract class ActionStrategy {
   protected mapActionDone: Map<string, string> = new Map<string, string>();
 
   constructor() {
-    this.mapFinishResponse.set('en-US', 'Your action has been completed.');
-    this.mapFinishResponse.set('es-ES', 'La accion ha sido finalizada.');
+    this.mapFinishResponse.set('en-US', 'Your action has been completed.');   
     this.mapFinishResponse.set('ur-PK', '.تمہارا کام ہو گیا ہے');
   }
 
