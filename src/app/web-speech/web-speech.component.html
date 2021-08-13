@@ -11,7 +11,7 @@
     <i class="fas fa-microphone-slash">Stop Speech</i>
   </button>
     <ng-template #mic>
-      <button mat-fab (click)="start()"> 
+      <button mat-fab (click)="start()">
       <i class="fas fa-microphone">Start Speech</i>
     </button>
     </ng-template>
@@ -23,11 +23,40 @@
   </div>
   <div class="form-group row">
     <!-- <input type="text" [value]="totalTranscript || ''" placeholder="Speech Input Result" rows="15"> -->
-
-    <textarea  [(ngModel)]="totalTranscript" rows="30" cols="50">                             
+    <textarea  [(ngModel)]="totalTranscript" rows="30" cols="50">
   </textarea>
   </div>
-  <div class="form-group row">
-    
-  </div>
+</div>
+<div class="form-group row">
+
+  <h5 class="card-title">Add / Edit user</h5>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Name</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="name"
+        #name
+      />
+    </div>
+    <div class="form-group">
+      <label>City</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="city"
+        #city
+      />
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-success mr-2">
+        Save
+      </button>
+      <button class="btn btn-primary" (click)="clearForm()">
+        Clear
+      </button>
+    </div>
+  </form>
+
 </div>

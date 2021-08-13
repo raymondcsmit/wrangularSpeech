@@ -1,11 +1,15 @@
 import { Component, VERSION } from '@angular/core';
-import { merge, Observable, of, Subject } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Select, Store } from '@ngxs/store';
+import { merge, Observable, of, Subject, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ActionContext } from './action/action.context';
+import { AddUser, SetSelectedUser, UpdateUser, WDict } from './ngxs.state.user';
 import { SpeechRecognizerService } from './services/speech-recognizer.service';
 import { defaultLanguage, languages } from './speech.constants';
 import { SpeechError, SpeechEvent } from './speech.enum';
 import { SpeechNotification } from './speech.model';
+import { User, UserState } from './user.ngxs.state';
 
 
 @Component({
@@ -14,6 +18,7 @@ import { SpeechNotification } from './speech.model';
   styleUrls: [ './web-speech.component.css' ]
 })
 export class WebSpeechComponent  {
+  //#region speechCode
   name = 'Angular ' + VERSION.major;
   languages: string[] = languages;
   currentLanguage: string = defaultLanguage;
@@ -23,20 +28,6 @@ export class WebSpeechComponent  {
   listening$?: Observable<boolean>;
   errorMessage$?: Observable<string>;
   defaultError$ = new Subject<string | undefined>();
-
-  constructor(
-    private speechRecognizer: SpeechRecognizerService,
-    private actionContext: ActionContext
-  ) {}
-  ngOnInit(): void {
-    const webSpeechReady = this.speechRecognizer.initialize(this.currentLanguage);
-    if (webSpeechReady) {
-      this.initRecognition();
-    }else {
-      this.errorMessage$ = of('Your Browser is not supported. Please try Google Chrome.');
-    }
-  }
-
 
   start(): void {
     if (this.speechRecognizer.isListening) {
@@ -116,5 +107,71 @@ export class WebSpeechComponent  {
         : notification.content;
     }
   }
+  //#endregion speechCode
 
+  //#region cmmon CODE
+  constructor(
+    private speechRecognizer: SpeechRecognizerService,
+    private actionContext: ActionContext,
+    private fb: FormBuilder, private store: Store
+  ) {
+    this.createForm();
+  }
+  ngOnInit(): void {
+    const webSpeechReady = this.speechRecognizer.initialize(this.currentLanguage);
+    if (webSpeechReady) {
+      this.initRecognition();
+    }else {
+      this.errorMessage$ = of('Your Browser is not supported. Please try Google Chrome.');
+    }
+
+    this.formSubscription.add(
+      this.selectedUser.subscribe(user => {
+        if (user) {
+          this.userForm.patchValue({
+            id: user.id,
+            name: user.name,
+            city: user.city
+          });
+          this.editUser = true;
+        } else {
+          this.editUser = false;
+        }
+      })
+    );
+  }
+  //#endregion common Code
+
+  //#region form code
+  @Select(UserState.getSelectedUser) selectedUser: Observable<User>;
+  @Select(UserState.getUserList) users: Observable<User[]>;
+  userForm: FormGroup;
+  editUser = false;
+  wdict: WDict[] = [];
+  private formSubscription: Subscription = new Subscription();
+
+  createForm() {
+    this.userForm = this.fb.group({
+      id: [''],
+      name: [''],
+      city: ['']
+    });
+  }
+  onSubmit() {
+    if (this.editUser) {
+      this.store.dispatch(
+        new UpdateUser(this.userForm.value, this.userForm.value.id)
+      );
+      this.clearForm();
+    } else {
+      this.store.dispatch(new AddUser(this.userForm.value));
+      this.clearForm();
+    }
+  }
+
+  clearForm() {
+    this.userForm.reset();
+    this.store.dispatch(new SetSelectedUser(null));
+  }
+  //#endregion form code
 }

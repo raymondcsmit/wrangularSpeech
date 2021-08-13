@@ -10,3 +10,4 @@ export interface SpeechNotification<T> {
   error?: SpeechError;
   content?: T;
 }
+
