@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class SpeechSynthesizerService {
   speechSynthesizer!: SpeechSynthesisUtterance;
@@ -14,7 +14,7 @@ export class SpeechSynthesizerService {
     this.speechSynthesizer = new SpeechSynthesisUtterance();
     this.speechSynthesizer.volume = 1;
     this.speechSynthesizer.rate = 1;
-    this.speechSynthesizer.pitch = 0.2;
+    this.speechSynthesizer.pitch = 0.1;
   }
 
   speak(message: string, language: string): void {

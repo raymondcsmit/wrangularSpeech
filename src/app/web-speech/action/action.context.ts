@@ -39,7 +39,7 @@ export class ActionContext {
 
   private hasChangedStrategy(message: string, language: string): boolean {
     let strategy: ActionStrategy | undefined;
-    if (message === this.fillFormStrategy.getStartSignal(language)) {
+    if (message.toLowerCase() === this.fillFormStrategy.getStartSignal(language).toLowerCase()) {
       strategy = this.fillFormStrategy;
     }
 
@@ -55,7 +55,7 @@ export class ActionContext {
     return false;
   }
   private isFinishSignal(message: string, language: string): boolean {
-    if (message === this.fillFormStrategy.getEndSignal(language)) {
+    if (message.toLowerCase() === this.fillFormStrategy.getEndSignal(language).toLowerCase()) {
       if (this.currentStrategy) {
         this.speechSynthesizer.speak(
           this.currentStrategy.getFinishResponse(language),

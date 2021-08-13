@@ -85,7 +85,7 @@ export class SpeechRecognizerService {
             });
           } else {
             interimContent += event.results[i][0].transcript;
-            // console.log('interim transcript', event, interimContent);
+             //console.log('interim transcript', event, interimContent);
             this.ngZone.run(() => {
               observer.next({
                 event: SpeechEvent.InterimContent,
