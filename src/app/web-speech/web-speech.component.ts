@@ -63,7 +63,7 @@ export class WebSpeechComponent  {
   private initRecognition(): void {
     this.transcript$ = this.speechRecognizer.onResult().pipe(
       tap((notification) => {
-        //this.processNotification(notification);
+        this.processNotification(notification);
       }),
       map((notification) => notification.content || '')
     );
